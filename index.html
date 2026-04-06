@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Chatbot</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Chat Container */
+.chat-container {
+    width: 380px;
+    background: white;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+h2 {
+    text-align: center;
+}
+
+/* Chat Box */
+#chat-box {
+    height: 350px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* Messages */
+.user, .bot {
+    margin: 8px 0;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.user {
+    background: #4facfe;
+    color: white;
+    margin-left: auto;
+}
+
+.bot {
+    background: #eaeaea;
+}
+
+/* Input Area */
+.input-area {
+    display: flex;
+}
+
+input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    padding: 10px;
+    margin-left: 5px;
+    border: none;
+    background: #4facfe;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #007bff;
+}
+</style>
+
+</head>
+<body>
+
+<div class="chat-container">
+    <h2>💬 Chatbot</h2>
+
+    <div id="chat-box"></div>
+
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Type message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+<script>
+let input = document.getElementById("user-input");
+
+// Enter key support
+input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    let message = input.value.trim();
+    if (message === "") return;
+
+    addMessage(message, "user");
+
+    setTimeout(() => {
+        let reply = getBotResponse(message);
+        addMessage(reply, "bot");
+    }, 500);
+
+    input.value = "";
+}
+
+function addMessage(text, sender) {
+    let chatBox = document.getElementById("chat-box");
+
+    let msg = document.createElement("div");
+    msg.classList.add(sender);
+    msg.innerText = text;
+
+    chatBox.appendChild(msg);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+function getBotResponse(msg) {
+    msg = msg.toLowerCase();
+
+    if (msg.includes("hello") || msg.includes("hi")) {
+        return "Hello! 👋";
+    }
+    else if (msg.includes("name")) {
+        return "I'm your chatbot 🤖";
+    }
+    else if (msg.includes("time")) {
+        return new Date().toLocaleTimeString();
+    }
+    else if (msg.includes("date")) {
+        return new Date().toLocaleDateString();
+    }
+    else if (msg.includes("how are you")) {
+        return "I'm doing great 😄";
+    }
+    else if (msg.includes("bye")) {
+        return "Goodbye! 👋";
+    }
+    else {
+        return "Sorry, I don't understand 😅";
+    }
+}
+</script>
+
+</body>
+</html>
